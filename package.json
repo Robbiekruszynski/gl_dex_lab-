@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "homepage": ".",
- 
   "dependencies": {
     "@truffle/hdwallet-provider": "1.1.0",
     "apexcharts": "3.6.3",
@@ -52,4 +51,3 @@
     "not op_mini all"
   ]
 }
-
