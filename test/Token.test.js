@@ -6,7 +6,7 @@ require('chai')
 .use(require("chai-as-promised"))
 .should()
 
-contract('Token', ([deployer]) => {
+contract('Token', ([deployer, receiver]) => {
     const name ='Yog'
     const symbol = 'YOG'
     const decimals = '18'
@@ -46,4 +46,25 @@ contract('Token', ([deployer]) => {
             result.toString().should.equal(totalSupply)
     })
 })
+    describe('sending tokens', () => {
+        it("transfers token balances", async () => {
+            let balanceOf
+            //balance before transfer
+            balanceOf = await token.balanceOf(receiver)
+            console.log("reciever balance before transfer", balanceOf)
+            balanceOf = await token.balanceOf(deployer)
+            console.log("reciever balance", balanceOf.toString())
+
+            //transfer
+            await token.transfer(receiver, "1000000000000000000", { from: deployer})
+
+            //after transfer
+            balanceOf = await token.balanceOf(receiver)
+            console.log("reciever balance after transfer", balanceOf)
+            balanceOf = await token.balanceOf(deployer)
+            console.log("reciever balance", balanceOf.toString())
+        })
+    })
 })
+
+
