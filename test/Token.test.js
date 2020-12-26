@@ -1,20 +1,14 @@
 
-
+import { tokens } from "./Helpers"
 const Token = artifacts.require("./Token")
 
 require('chai')
 .use(require("chai-as-promised"))
 .should()
 
-const tokens = (n) => {
-    //web3 big Num lib
-    return new web3.utils.BN(
-    web3.utils.toWei(n.toString(), 'ether')
-    )
 
-}
 
-contract('Token', ([deployer, receiver]) => {
+contract('Token', ([deployer, receiver]) => { 
     const name ='Yog'
     const symbol = 'YOG'
     const decimals = '18'
