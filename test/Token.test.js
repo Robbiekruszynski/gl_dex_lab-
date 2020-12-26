@@ -1,4 +1,4 @@
-const { result } = require('lodash')
+
 
 const Token = artifacts.require("./Token")
 
@@ -6,11 +6,19 @@ require('chai')
 .use(require("chai-as-promised"))
 .should()
 
+const tokens = (n) => {
+    //web3 big Num lib
+    return new web3.utils.BN(
+    web3.utils.toWei(n.toString(), 'ether')
+    )
+
+}
+
 contract('Token', ([deployer, receiver]) => {
     const name ='Yog'
     const symbol = 'YOG'
     const decimals = '18'
-    const totalSupply = '1000000000000000000000000'
+    const totalSupply = tokens(1000000).toString()
     let token
 
     //fetch token this allows us to call and chec on token whenever we want to without having to run it each time we run truffle test 
@@ -43,7 +51,10 @@ contract('Token', ([deployer, receiver]) => {
 
         it ('assigns the total supply to the deployer', async() => {
             const result = await token.balanceOf(deployer)
-            result.toString().should.equal(totalSupply)
+            result.toString().should.equal(totalSupply.toString())
+
+            //always make sure you are using the same value with Chai to check 
+            //i.e. toString agaisnt toStrong (53-55 example)
     })
 })
     describe('sending tokens', () => {
@@ -56,7 +67,7 @@ contract('Token', ([deployer, receiver]) => {
             console.log("reciever balance", balanceOf.toString())
 
             //transfer
-            await token.transfer(receiver, "1000000000000000000", { from: deployer})
+            await token.transfer(receiver, tokens(100), { from: deployer})
 
             //after transfer
             balanceOf = await token.balanceOf(receiver)
