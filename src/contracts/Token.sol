@@ -29,9 +29,11 @@ contract Token {
         public
         returns (bool success)
     {
+        //check to make sure not sending to a false account
+        require(_to != address(0));
+        //require is a true or false
         require(balanceOf[msg.sender] >= _value);
-        //require is a true or false 
-        
+
         balanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);
         balanceOf[_to] = balanceOf[_to].add(_value);
         emit Transfer(msg.sender, _to, _value);
