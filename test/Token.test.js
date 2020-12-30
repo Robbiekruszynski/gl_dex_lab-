@@ -92,6 +92,10 @@ contract('Token', ([deployer, receiver]) => {
                 //token amount is to test for failure
                 invalidAmount = tokens(10000000000) 
                 await token.transfer(receiver, invalidAmount, {from: deployer}).should.be.rejectedWith(EVM_REVERT);
+
+                //Attemp to transfer tokens with a zero balance
+                invalidAmount = tokens(10)
+                await token.transfer(deployer, invalidAmount, { from: receiver}).should.be.rejectedWith(EVM_REVERT);
             })
         })
         })
