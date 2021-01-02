@@ -9,7 +9,7 @@ require('chai')
 
 
 
-contract('Token', ([deployer, receiver]) => { 
+contract('Token', ([deployer, receiver, exchange]) => { 
     const name ='Yog'
     const symbol = 'YOG'
     const decimals = '18'
@@ -103,6 +103,27 @@ contract('Token', ([deployer, receiver]) => {
             })
         })
         })
+
+    describe('approving tokens', () => {
+        let result 
+        let amount 
+
+        beforeEach(async () => {
+            amount = tokens(100)
+            result = await token.approve(exchange, amount, { from: deployer})
+        })
+
+     describe('success', () => {
+         it('allocates on allowance for delegated token spending on an exchange', async () => {
+             const allowance = await token.allowance(deployer, exchange)
+             allowance.toString().should.equal(amount.toString())
+         })
+
+     })
+     describe('failure', () => {
+
+     })
+    })
     })
 
  

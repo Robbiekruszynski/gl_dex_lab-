@@ -13,6 +13,9 @@ contract Token {
     // Track balanes (stores information)
     mapping(address => uint256) public balanceOf;
 
+    //keeping track of token allowance !!!!!! (dig into this)
+    mapping(address => mapping(address => uint256)) public allowance;
+
     // State vars listed above
 
     //events
@@ -25,6 +28,7 @@ contract Token {
         balanceOf[msg.sender] = totalSupply;
     }
 
+    // Send tokens (behave func)
     function transfer(address _to, uint256 _value)
         public
         returns (bool success)
@@ -39,6 +43,8 @@ contract Token {
         emit Transfer(msg.sender, _to, _value);
         return true;
     }
-}
 
-// Send tokens (behave func)
+    //approve token
+
+    //transfer from
+}
