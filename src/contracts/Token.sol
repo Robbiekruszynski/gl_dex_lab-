@@ -39,14 +39,25 @@ contract Token {
         returns (bool success)
     {
         //check to make sure not sending to a false account
-        require(_to != address(0));
-        //require is a true or false
-        require(balanceOf[msg.sender] >= _value);
 
+        require(balanceOf[msg.sender] >= _value);
+        _transfer(msg.sender, _to, _value);
+        return true;
+    }
+
+    //make an internal function called _transfer to reuse
+    //marker of _ pre var name = internal
+
+    function _transfer(
+        address _from,
+        address _to,
+        uint256 _value
+    ) internal {
+        //check to make sure not sending to a false account
+        require(_to != address(0));
         balanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);
         balanceOf[_to] = balanceOf[_to].add(_value);
-        emit Transfer(msg.sender, _to, _value);
-        return true;
+        emit Transfer(_from, _to, _value);
     }
 
     //approve token
@@ -59,5 +70,15 @@ contract Token {
         emit Approval(msg.sender, _spender, _value);
         return true;
     }
+
     //transfer from
+    function transferFrom(
+        address _from,
+        address _to,
+        uint256 _value
+    ) public returns (bool success) {
+        allowance[_from][msg.sender] = allowance[_from][msg.sender].sub(_value);
+        _transfer(_from, _to, _value);
+        return true;
+    }
 }
